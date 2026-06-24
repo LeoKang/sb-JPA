@@ -8,6 +8,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -21,6 +23,12 @@ public class JpaApplication implements ApplicationRunner {
                         .name("윤서준")
                         .email("SeojunYoon@hanbit.co.kr")
                         .age(10).build());
-        memberRepository.findAll();
+        memberRepository.save(
+                Member.builder()
+                        .name("윤광철")
+                        .email("kwangcheolYoon@hanbit.co.kr")
+                        .age(43).build());
+        List<Member> member = memberRepository.findAll();
+        log.info("Member : {}", member);
     }
 }
