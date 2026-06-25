@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.entity.Member;
+import com.example.demo.model.Article;
+import com.example.demo.repository.ArticleRepository;
 import com.example.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +19,11 @@ import java.util.List;
 @Transactional
 public class JpaApplication implements ApplicationRunner {
     private final MemberRepository memberRepository;
+    private final ArticleRepository articleRepository;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        var member1 =Member.builder()
+        var member1 = Member.builder()
                 .name("윤서준")
                 .email("SeojunYoon@hanbit.co.kr")
                 .age(10).build();
@@ -28,7 +31,7 @@ public class JpaApplication implements ApplicationRunner {
         memberRepository.save(member1);
         log.info("saved {}", member1);
 
-        var member2 =Member.builder()
+        var member2 = Member.builder()
                 .name("윤광철")
                 .email("kwangcheolYoon@hanbit.co.kr")
                 .age(43).build();
@@ -51,6 +54,17 @@ public class JpaApplication implements ApplicationRunner {
 //        List<Member> member = memberRepository.findAll();
 //        var member = memberRepository.findAll();
 //        log.info("Member : {}", member);
+
+        var article = Article.builder()
+                .title("방학 첫날이다.")
+                .description("오늘은 열심히 방학 숙제를 했다.")
+                .member(member1).build();
+        articleRepository.save(article);
+
+        var articles = articleRepository.findAll();
+        for(Article article_list : articles) {
+            log.info("{}", article_list);
+        }
 
         log.info("애플리케이션 종료");
     }
